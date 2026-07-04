@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Max Fit Zone Fitness LLC — 24 Hour Gym, Al Murar Dubai</title>
+<meta name="description" content="Max Fit Zone Fitness LLC — a 24 hour strength and conditioning floor in Al Murar, Dubai. Free weights, turf sprint lane, personal training, supplements bar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#0a0b0f;
+    --iron:#15171d;
+    --iron-2:#1c1f27;
+    --bone:#edede8;
+    --bone-dim:#b7b9c1;
+    --volt:#3b6eff;
+    --volt-glow:rgba(59,110,255,.35);
+    --amber:#e8a94a;
+    --teal:#2fbfa0;
+    --alarm:#ff4438;
+    --line:rgba(237,237,232,.1);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--void);
+    color:var(--bone);
+    font-family:'Manrope', sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{display:block; max-width:100%;}
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--volt); color:var(--void);}
+  :focus-visible{outline:2px solid var(--teal); outline-offset:3px;}
+
+  .wrap{max-width:1240px; margin:0 auto; padding:0 clamp(20px,5vw,64px);}
+
+  h1,h2,h3,.display{
+    font-family:'Anton', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.01em;
+    line-height:0.96;
+    font-weight:400;
+  }
+  .mono{font-family:'Space Mono', monospace; letter-spacing:.04em;}
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--teal);
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:''; width:22px; height:1px; background:var(--teal); display:inline-block;}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:linear-gradient(to bottom, rgba(10,11,15,.92), rgba(10,11,15,0));
+    padding:18px 0;
+    transition:background .3s;
+  }
+  header.scrolled{background:rgba(10,11,15,.88); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  nav{display:flex; align-items:center; justify-content:space-between;}
+  .logo{
+    font-family:'Anton', sans-serif;
+    font-size:22px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo .dot{color:var(--volt);}
+  .nav-links{display:flex; gap:34px; font-size:14px; font-weight:600; letter-spacing:.02em;}
+  .nav-links a{position:relative; color:var(--bone-dim); transition:color .2s;}
+  .nav-links a:hover{color:var(--bone);}
+  .nav-links a::after{
+    content:''; position:absolute; left:0; bottom:-8px; width:0; height:2px;
+    background:var(--teal); transition:width .25s;
+  }
+  .nav-links a:hover::after{width:100%;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Space Mono', monospace;
+    font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+    padding:13px 22px;
+    border-radius:3px;
+    cursor:pointer; border:1px solid transparent;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--volt); color:var(--bone); box-shadow:0 0 0 0 var(--volt-glow);}
+  .btn-primary:hover{box-shadow:0 8px 24px -4px var(--volt-glow);}
+  .btn-ghost{border:1px solid rgba(237,237,232,.28); color:var(--bone);}
+  .btn-ghost:hover{border-color:var(--teal); color:var(--teal);}
+  .btn-sm{padding:10px 16px; font-size:11.5px;}
+  .menu-toggle{display:none; flex-direction:column; gap:5px; background:none; border:0; cursor:pointer;}
+  .menu-toggle span{width:24px; height:2px; background:var(--bone);}
+
+  /* ---------- YARD RAIL (signature element) ---------- */
+  .yard-rail{
+    position:fixed; right:22px; top:50%; transform:translateY(-50%);
+    z-index:90; display:flex; flex-direction:column; align-items:center; gap:0;
+  }
+  .yard-rail .tick{
+    display:flex; align-items:center; gap:10px; cursor:pointer;
+    padding:9px 0; color:var(--bone-dim);
+  }
+  .yard-rail .num{
+    font-family:'Space Mono', monospace; font-size:12px; width:24px; text-align:right;
+    transition:color .25s;
+  }
+  .yard-rail .bar{width:14px; height:2px; background:rgba(237,237,232,.25); transition:all .25s;}
+  .yard-rail .tick.active .num{color:var(--teal); font-weight:700;}
+  .yard-rail .tick.active .bar{background:var(--teal); width:26px; box-shadow:0 0 8px var(--teal);}
+  .yard-rail .tick:hover .bar{background:var(--amber);}
+  @media (max-width:880px){.yard-rail{display:none;}}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; min-height:100vh; display:flex; align-items:flex-end;
+    background:#000;
+  }
+  .hero-media{position:absolute; inset:0; overflow:hidden; background:var(--void);}
+  .hero-media canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none;}
+  .hero-media::after{
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background:
+      linear-gradient(to top, rgba(10,11,15,.97) 5%, rgba(10,11,15,.45) 45%, rgba(10,11,15,.15) 70%),
+      linear-gradient(to right, rgba(10,11,15,.55) 0%, transparent 45%);
+  }
+  .hero-content{position:relative; z-index:2; width:100%; padding-bottom:clamp(56px,8vw,96px);}
+  .hero-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Space Mono', monospace; font-size:12.5px; letter-spacing:.06em;
+    background:rgba(10,11,15,.55); border:1px solid rgba(232,169,74,.4);
+    padding:7px 14px; border-radius:100px; color:var(--amber); margin-bottom:22px;
+  }
+  .hero h1{
+    font-size:clamp(48px, 9vw, 118px);
+    color:var(--bone);
+    max-width:14ch;
+  }
+  .hero h1 .accent{color:var(--volt); text-shadow:0 0 30px var(--volt-glow);}
+  .hero-sub{
+    margin-top:22px; font-size:clamp(15px,1.6vw,18px); color:var(--bone-dim);
+    max-width:520px; line-height:1.6;
+  }
+  .hero-actions{display:flex; gap:14px; margin-top:36px; flex-wrap:wrap;}
+  .hero-meta{
+    display:flex; gap:28px; margin-top:52px; flex-wrap:wrap;
+    border-top:1px solid var(--line); padding-top:22px; max-width:640px;
+  }
+  .hero-meta .item{font-family:'Space Mono', monospace; font-size:12px; color:var(--bone-dim);}
+  .hero-meta .item b{display:block; color:var(--bone); font-size:15px; margin-bottom:3px;}
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{padding:clamp(70px,10vw,130px) 0; position:relative;}
+  .section-head{margin-bottom:52px; max-width:680px;}
+  .section-head h2{font-size:clamp(34px,5vw,58px); margin-top:14px;}
+  .section-head p{margin-top:16px; color:var(--bone-dim); font-size:16px; line-height:1.65;}
+
+  /* ---------- STAT STRIP ---------- */
+  .stats{
+    background:var(--iron); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:0;
+  }
+  .stats .wrap{
+    display:grid; grid-template-columns:repeat(4,1fr);
+  }
+  .stat{
+    padding:34px 22px; border-right:1px solid var(--line); text-align:left;
+  }
+  .stat:last-child{border-right:none;}
+  .stat .n{font-family:'Anton', sans-serif; font-size:clamp(30px,4vw,46px); color:var(--teal); line-height:1;}
+  .stat .l{font-family:'Space Mono', monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--bone-dim); margin-top:8px;}
+  @media (max-width:760px){
+    .stats .wrap{grid-template-columns:repeat(2,1fr);}
+    .stat{border-bottom:1px solid var(--line);}
+  }
+
+  /* ---------- GALLERY ---------- */
+  .gallery-grid{
+    display:grid; grid-template-columns:repeat(6,1fr); grid-auto-rows:230px; gap:14px;
+  }
+  .g-item{
+    position:relative; overflow:hidden; border-radius:6px; background:var(--iron);
+    grid-column:span 2;
+  }
+  .g-item.wide{grid-column:span 3; grid-row:span 2;}
+  .g-item img{width:100%; height:100%; object-fit:cover; transition:transform .6s ease, filter .6s ease;}
+  .g-item:hover img{transform:scale(1.06); filter:saturate(1.15);}
+  .g-caption{
+    position:absolute; left:0; right:0; bottom:0; padding:16px 18px;
+    background:linear-gradient(to top, rgba(10,11,15,.92), transparent);
+    transform:translateY(8px); opacity:.92;
+  }
+  .g-caption .tag{font-family:'Space Mono', monospace; font-size:10.5px; color:var(--teal); letter-spacing:.1em; text-transform:uppercase;}
+  .g-caption .title{font-family:'Anton', sans-serif; font-size:17px; text-transform:uppercase; margin-top:4px;}
+  @media (max-width:900px){
+    .gallery-grid{grid-template-columns:repeat(2,1fr); grid-auto-rows:220px;}
+    .g-item{grid-column:span 1 !important; grid-row:span 1 !important;}
+  }
+
+  /* ---------- FACILITIES ---------- */
+  .fac-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+  .fac{background:var(--void); padding:34px 28px; transition:background .25s;}
+  .fac:hover{background:var(--iron);}
+  .fac .ic{
+    width:42px; height:42px; border-radius:50%; border:1px solid rgba(237,237,232,.25);
+    display:flex; align-items:center; justify-content:center; margin-bottom:20px; color:var(--amber);
+  }
+  .fac h3{font-size:19px; text-transform:none; font-family:'Manrope',sans-serif; font-weight:800;}
+  .fac p{margin-top:10px; font-size:14.5px; color:var(--bone-dim); line-height:1.6;}
+  @media (max-width:760px){.fac-grid{grid-template-columns:1fr;}}
+
+  /* ---------- REVIEWS ---------- */
+  .review-panel{
+    display:grid; grid-template-columns:.9fr 1.1fr; gap:60px; align-items:center;
+    background:var(--iron); border:1px solid var(--line); border-radius:10px; padding:clamp(30px,5vw,60px);
+  }
+  .rating-block{text-align:left;}
+  .rating-num{font-family:'Anton', sans-serif; font-size:96px; color:var(--amber); line-height:.9;}
+  .stars{color:var(--amber); font-size:22px; letter-spacing:3px; margin-top:10px;}
+  .rating-block .sub{font-family:'Space Mono', monospace; font-size:12.5px; color:var(--bone-dim); margin-top:10px;}
+  .review-quote-list{display:flex; flex-direction:column; gap:0;}
+  .review-line{
+    display:flex; align-items:baseline; gap:14px; padding:16px 0; border-bottom:1px solid var(--line);
+  }
+  .review-line:last-child{border-bottom:none;}
+  .review-line .stars-sm{color:var(--amber); font-size:13px; white-space:nowrap;}
+  .review-line p{font-size:14.5px; color:var(--bone-dim);}
+  @media (max-width:800px){.review-panel{grid-template-columns:1fr; gap:30px;}}
+
+  /* ---------- LOCATION ---------- */
+  .loc-grid{display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+  .loc-media{position:relative; min-height:420px;}
+  .loc-media img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0;}
+  .loc-info{background:var(--iron); padding:clamp(30px,5vw,56px); display:flex; flex-direction:column; justify-content:center; gap:26px;}
+  .loc-row{display:flex; gap:16px; align-items:flex-start;}
+  .loc-row .ic{color:var(--teal); font-family:'Space Mono',monospace; font-size:13px; width:26px; flex-shrink:0; padding-top:2px;}
+  .loc-row b{display:block; font-size:15px; margin-bottom:4px;}
+  .loc-row span{color:var(--bone-dim); font-size:14.5px; line-height:1.55;}
+  .loc-actions{display:flex; gap:12px; margin-top:6px; flex-wrap:wrap;}
+  @media (max-width:800px){.loc-grid{grid-template-columns:1fr;} .loc-media{min-height:260px;}}
+
+  /* ---------- CTA BAND ---------- */
+  .cta-band{
+    background:linear-gradient(120deg, var(--volt), #1c3fc7);
+    border-radius:10px; padding:clamp(40px,6vw,70px); text-align:center;
+    position:relative; overflow:hidden;
+  }
+  .cta-band::before{
+    content:'24'; position:absolute; right:-20px; bottom:-60px; font-family:'Anton',sans-serif;
+    font-size:280px; color:rgba(255,255,255,.06); line-height:1;
+  }
+  .cta-band h2{font-size:clamp(30px,5vw,50px); color:#fff; position:relative;}
+  .cta-band p{color:rgba(255,255,255,.85); margin-top:14px; font-size:16px; position:relative;}
+  .cta-band .hero-actions{justify-content:center; margin-top:30px; position:relative;}
+  .cta-band .btn-primary{background:#fff; color:var(--void);}
+  .cta-band .btn-ghost{border-color:rgba(255,255,255,.4); color:#fff;}
+  .cta-band .btn-ghost:hover{border-color:#fff; color:#fff;}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--line); padding:50px 0 30px;}
+  .foot-top{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:30px; padding-bottom:36px; border-bottom:1px solid var(--line);}
+  .foot-col p, .foot-col a{color:var(--bone-dim); font-size:14px; display:block; margin-top:8px;}
+  .foot-col h4{font-family:'Space Mono',monospace; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); margin-bottom:10px;}
+  .foot-bottom{display:flex; justify-content:space-between; margin-top:22px; font-size:12.5px; color:var(--bone-dim); flex-wrap:wrap; gap:10px;}
+  .foot-bottom .mono{color:rgba(237,237,232,.4);}
+
+  /* Reveal on scroll */
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.show{opacity:1; transform:none;}
+
+  @media (max-width:880px){
+    .nav-links{display:none;}
+    .menu-toggle{display:flex;}
+  }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="wrap">
+    <nav>
+      <a href="#top" class="logo">MAX<span class="dot">·</span>FIT ZONE</a>
+      <div class="nav-links">
+        <a href="#facilities">Facilities</a>
+        <a href="#gallery">The Floor</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#location">Location</a>
+      </div>
+      <a class="btn btn-primary btn-sm" href="https://wa.me/971503119104" target="_blank" rel="noopener">Book Free Trial</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Yard rail scroll marker -->
+<div class="yard-rail" id="yardRail">
+  <div class="tick" data-target="#top"><span class="num">09</span><span class="bar"></span></div>
+  <div class="tick" data-target="#facilities"><span class="num">07</span><span class="bar"></span></div>
+  <div class="tick" data-target="#gallery"><span class="num">05</span><span class="bar"></span></div>
+  <div class="tick" data-target="#reviews"><span class="num">03</span><span class="bar"></span></div>
+  <div class="tick" data-target="#location"><span class="num">01</span><span class="bar"></span></div>
+</div>
+
+<section class="hero" id="top">
+  <div class="hero-media">
+    <canvas id="shaderCanvas"></canvas>
+  </div>
+  <div class="wrap hero-content">
+    <div class="hero-badge">★ 4.9 GOOGLE RATING · AL MURAR, DUBAI</div>
+    <h1>Train while <span class="accent">Dubai</span> sleeps.</h1>
+    <p class="hero-sub">Max Fit Zone is a 24&#8209;hour strength and conditioning floor tucked behind Talal Supermarket in Al Murar — built for shift workers, night owls and anyone done waiting for Monday.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://wa.me/971503119104" target="_blank" rel="noopener">Book a Free Session</a>
+      <a class="btn btn-ghost" href="https://www.google.com/maps/place/MAX+FIT+ZONE+FITNESS+LLC/@25.2786812,55.3118543,17z" target="_blank" rel="noopener">Get Directions →</a>
+    </div>
+    <div class="hero-meta">
+      <div class="item"><b>Open 24 Hours</b>Every day, no closing time</div>
+      <div class="item"><b>Al Murar, Dubai</b>Opp. Talal Supermarket</div>
+      <div class="item"><b>4.9 / 5</b>From 10 Google reviews</div>
+    </div>
+  </div>
+</section>
+
+<div class="stats reveal">
+  <div class="wrap">
+    <div class="stat"><div class="n">24</div><div class="l">Hours Open Daily</div></div>
+    <div class="stat"><div class="n">4.9</div><div class="l">Google Rating</div></div>
+    <div class="stat"><div class="n mono">AL MURAR</div><div class="l">Naif, Dubai</div></div>
+    <div class="stat"><div class="n mono">TURF LANE</div><div class="l">Sprint &amp; Conditioning</div></div>
+  </div>
+</div>
+
+<section id="facilities">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">What's on the floor</div>
+      <h2>Built for the work,<br>not the selfie.</h2>
+      <p>No fluff, no crowd-management gimmicks — a straightforward floor plan with the equipment people actually come back for.</p>
+    </div>
+    <div class="fac-grid reveal">
+      <div class="fac">
+        <div class="ic">⏱</div>
+        <h3>24/7 Access</h3>
+        <p>Badge in whenever your shift ends. The floor doesn't close, so your training doesn't have to fit someone else's schedule.</p>
+      </div>
+      <div class="fac">
+        <div class="ic">▦</div>
+        <h3>Turf Sprint Lane</h3>
+        <p>A yard-marked conditioning lane for sled pushes, sprints and finishers — laid straight down the middle of the gym.</p>
+      </div>
+      <div class="fac">
+        <div class="ic">●</div>
+        <h3>Free Weights &amp; Machines</h3>
+        <p>Dumbbells from 4kg to 55kg, plate-loaded rigs and selectorized machines, racked and labeled for quick changeovers.</p>
+      </div>
+      <div class="fac">
+        <div class="ic">▲</div>
+        <h3>Personal Training</h3>
+        <p>Coached one-to-one sessions on the same floor you train on — no separate studio, no scheduling runaround.</p>
+      </div>
+      <div class="fac">
+        <div class="ic">✚</div>
+        <h3>Supplements Bar</h3>
+        <p>Protein, creatine and pre-workout stocked at reception, so post-session recovery doesn't need a second stop.</p>
+      </div>
+      <div class="fac">
+        <div class="ic">◎</div>
+        <h3>Cardio Row</h3>
+        <p>A full line of treadmills facing the street windows — daylight training for the early shift, city lights for the late one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">The floor, in full</div>
+      <h2>Every corner<br>earns its space.</h2>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="g-item wide">
+        <img src="images/image3.jpg" alt="Turf sprint lane leading to the neon GYM sign">
+        <div class="g-caption"><div class="tag">Sprint Lane</div><div class="title">The Yard Line Cardio Run</div></div>
+      </div>
+      <div class="g-item">
+        <img src="images/image2.jpg" alt="Treadmill row beside the turf lane">
+        <div class="g-caption"><div class="tag">Cardio Row</div><div class="title">Treadmill Wall</div></div>
+      </div>
+      <div class="g-item">
+        <img src="images/image5.jpg" alt="Dumbbell rack and red benches">
+        <div class="g-caption"><div class="tag">Strength Deck</div><div class="title">Dumbbell Wall</div></div>
+      </div>
+      <div class="g-item">
+        <img src="images/image4.jpg" alt="Neon GYM sign beside graffiti wall and functional trainer">
+        <div class="g-caption"><div class="tag">Neon Corner</div><div class="title">Functional Rig</div></div>
+      </div>
+      <div class="g-item">
+        <img src="images/image6.jpg" alt="Max Fit Zone reception desk">
+        <div class="g-caption"><div class="tag">Front Desk</div><div class="title">Reception</div></div>
+      </div>
+      <div class="g-item">
+        <img src="images/image7.jpg" alt="Eternity Hub building exterior in Al Murar Dubai">
+        <div class="g-caption"><div class="tag">Find Us</div><div class="title">Eternity Hub Building</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Word on the floor</div>
+      <h2>Rated 4.9 by<br>the people training here.</h2>
+    </div>
+    <div class="review-panel reveal">
+      <div class="rating-block">
+        <div class="rating-num">4.9</div>
+        <div class="stars">★★★★★</div>
+        <div class="sub">FROM 10 VERIFIED<br>GOOGLE REVIEWS</div>
+        <a class="btn btn-ghost btn-sm" style="margin-top:22px;" href="https://www.google.com/maps/place/MAX+FIT+ZONE+FITNESS+LLC/@25.2786812,55.3118543,17z" target="_blank" rel="noopener">Read reviews on Google →</a>
+      </div>
+      <div class="review-quote-list">
+        <div class="review-line"><span class="stars-sm">★★★★★</span><p>Clean equipment, round-the-clock access, and staff who actually spot you when you ask.</p></div>
+        <div class="review-line"><span class="stars-sm">★★★★★</span><p>The turf lane is a nice touch for conditioning work between sets — rare to see in a gym this size.</p></div>
+        <div class="review-line"><span class="stars-sm">★★★★★</span><p>Been coming since it opened. Never crowded at odd hours, which is exactly what I needed.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="location">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Find the floor</div>
+      <h2>Al Murar, Dubai.<br>Open right now.</h2>
+    </div>
+    <div class="loc-grid reveal">
+      <div class="loc-media">
+        <img src="images/image7.jpg" alt="Eternity Hub building, Al Murar, Dubai">
+      </div>
+      <div class="loc-info">
+        <div class="loc-row">
+          <span class="ic">①</span>
+          <div><b>Address</b><span>Opposite Talal Supermarket, Al Murar, Naif, Dubai, United Arab Emirates</span></div>
+        </div>
+        <div class="loc-row">
+          <span class="ic">②</span>
+          <div><b>Hours</b><span>Open 24 hours, every day of the week</span></div>
+        </div>
+        <div class="loc-row">
+          <span class="ic">③</span>
+          <div><b>Phone</b><span><a href="tel:+971503119104">+971 50 311 9104</a></span></div>
+        </div>
+        <div class="loc-row">
+          <span class="ic">④</span>
+          <div><b>Rating</b><span>4.9 out of 5, from 10 Google reviews</span></div>
+        </div>
+        <div class="loc-actions">
+          <a class="btn btn-primary" href="https://wa.me/971503119104" target="_blank" rel="noopener">Message on WhatsApp</a>
+          <a class="btn btn-ghost" href="https://www.google.com/maps/place/MAX+FIT+ZONE+FITNESS+LLC/@25.2786812,55.3118543,17z" target="_blank" rel="noopener">Open in Google Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <h2>First session is on the house.</h2>
+      <p>Walk in anytime — the door doesn't lock. Or send a message and we'll have a coach ready.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://wa.me/971503119104" target="_blank" rel="noopener">Book a Free Session</a>
+        <a class="btn btn-ghost" href="tel:+971503119104">Call +971 50 311 9104</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-col" style="max-width:280px;">
+        <a href="#top" class="logo">MAX<span class="dot">·</span>FIT ZONE</a>
+        <p style="margin-top:14px;">A 24-hour strength and conditioning floor in Al Murar, Dubai.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Visit</h4>
+        <span>Opp. Talal Supermarket</span>
+        <span>Al Murar, Naif, Dubai, UAE</span>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <a href="tel:+971503119104">+971 50 311 9104</a>
+        <a href="https://wa.me/971503119104" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+      <div class="foot-col">
+        <h4>Hours</h4>
+        <span>Open 24 hours</span>
+        <span>Every day</span>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> Max Fit Zone Fitness LLC. All rights reserved.</span>
+      <span class="mono">NO PAIN, NO GAIN.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // header bg on scroll
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('show'); });
+  }, {threshold:0.12});
+  reveals.forEach(el => io.observe(el));
+
+  // yard rail scroll spy + click nav
+  const ticks = document.querySelectorAll('.yard-rail .tick');
+  const targets = Array.from(ticks).map(t => document.querySelector(t.dataset.target));
+  ticks.forEach(t => t.addEventListener('click', () => {
+    document.querySelector(t.dataset.target).scrollIntoView({behavior:'smooth'});
+  }));
+  window.addEventListener('scroll', () => {
+    let idx = 0;
+    targets.forEach((sec, i) => {
+      if(sec && sec.getBoundingClientRect().top < window.innerHeight * 0.5) idx = i;
+    });
+    ticks.forEach((t, i) => t.classList.toggle('active', i === idx));
+  });
+</script>
+
+<!-- ============================================================
+     AMBIENT SHADER BACKGROUND — inlined directly, no external
+     file needed. This runs on the hero canvas (#shaderCanvas).
+     ============================================================ -->
+<script>
+(function(){
+  function initShaderHero(canvasSelector) {
+    const canvas = typeof canvasSelector === 'string'
+      ? document.querySelector(canvasSelector)
+      : canvasSelector;
+    if (!canvas) return null;
+
+    const gl = canvas.getContext('webgl2');
+    if (!gl) { console.warn('[shader-hero] WebGL2 not supported, skipping.'); return null; }
+
+    const vertexSrc = `#version 300 es
+precision highp float;
+in vec4 position;
+void main(){ gl_Position = position; }`;
+
+    const fragmentSrc = `#version 300 es
+precision highp float;
+out vec4 O;
+uniform vec2 resolution;
+uniform float time;
+uniform vec2 move;
+uniform vec2 touch;
+uniform int pointerCount;
+uniform vec2 pointers[10];
+#define FC gl_FragCoord.xy
+#define T time
+#define R resolution
+#define MN min(R.x,R.y)
+
+float rnd(vec2 p){
+  p = fract(p*vec2(12.9898,78.233));
+  p += dot(p,p+34.56);
+  return fract(p.x*p.y);
+}
+float noise(in vec2 p){
+  vec2 i=floor(p), f=fract(p), u=f*f*(3.-2.*f);
+  float a=rnd(i), b=rnd(i+vec2(1,0)), c=rnd(i+vec2(0,1)), d=rnd(i+1.);
+  return mix(mix(a,b,u.x),mix(c,d,u.x),u.y);
+}
+float fbm(vec2 p){
+  float t=.0, a=1.; mat2 m=mat2(1.,-.5,.2,1.2);
+  for (int i=0;i<5;i++){ t+=a*noise(p); p*=2.*m; a*=.5; }
+  return t;
+}
+float clouds(vec2 p){
+  float d=1., t=.0;
+  for (float i=.0;i<3.;i++){
+    float a=d*fbm(i*10.+p.x*.2+.2*(1.+i)*p.y+d+i*i+p);
+    t=mix(t,d,a); d=a; p*=2./(i+1.);
+  }
+  return t;
+}
+void main(void){
+  vec2 uv=(FC-.5*R)/MN, st=uv*vec2(2,1);
+  vec3 col=vec3(0.);
+  float bg=clouds(vec2(st.x+T*.15,-st.y));
+  uv*=1.-.3*(sin(T*.15)*.5+.5);
+  uv += (move*0.00006);
+  for (float i=1.; i<12.; i++){
+    uv+=.1*cos(i*vec2(.1+.01*i,.8)+i*i+T*.35+.1*uv.x);
+    vec2 p=uv;
+    float d=length(p);
+    vec3 volt  = vec3(0.23, 0.43, 1.00);
+    vec3 teal  = vec3(0.18, 0.75, 0.63);
+    vec3 amber = vec3(0.91, 0.66, 0.29);
+    vec3 mixed = mix(volt, teal, sin(i*0.6+T*0.2)*0.5+0.5);
+    mixed = mix(mixed, amber, pow(bg,3.0)*0.35);
+    col += .0011/d * (mixed+0.15);
+    float b = noise(i+p+bg*1.731);
+    col += .0016*b/length(max(p, vec2(b*p.x*.02, p.y)));
+    col = mix(col, vec3(bg*0.05, bg*0.09, bg*0.14), d*0.9);
+  }
+  O = vec4(col, 1.0);
+}`;
+
+    function compile(type, src) {
+      const shader = gl.createShader(type);
+      gl.shaderSource(shader, src);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        console.error('[shader-hero]', gl.getShaderInfoLog(shader));
+      }
+      return shader;
+    }
+
+    const vs = compile(gl.VERTEX_SHADER, vertexSrc);
+    const fs = compile(gl.FRAGMENT_SHADER, fragmentSrc);
+    const program = gl.createProgram();
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.error('[shader-hero]', gl.getProgramInfoLog(program));
+      return null;
+    }
+
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,1,-1,-1,1,1,1,-1]), gl.STATIC_DRAW);
+    const positionLoc = gl.getAttribLocation(program, 'position');
+    gl.enableVertexAttribArray(positionLoc);
+    gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
+
+    const u = {
+      resolution: gl.getUniformLocation(program, 'resolution'),
+      time: gl.getUniformLocation(program, 'time'),
+      move: gl.getUniformLocation(program, 'move'),
+      touch: gl.getUniformLocation(program, 'touch'),
+      pointerCount: gl.getUniformLocation(program, 'pointerCount'),
+      pointers: gl.getUniformLocation(program, 'pointers'),
+    };
+
+    let dpr = Math.max(1, 0.5 * (window.devicePixelRatio || 1));
+    let moveX = 0, moveY = 0;
+    let touchX = 0, touchY = 0;
+    let pointers = new Map();
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = Math.max(1, Math.round(rect.width * dpr));
+      canvas.height = Math.max(1, Math.round(rect.height * dpr));
+      gl.viewport(0, 0, canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    canvas.addEventListener('pointerdown', (e) => {
+      pointers.set(e.pointerId, [e.clientX * dpr, canvas.height - e.clientY * dpr]);
+    });
+    canvas.addEventListener('pointermove', (e) => {
+      if (pointers.size === 0) return;
+      touchX = e.clientX; touchY = e.clientY;
+      pointers.set(e.pointerId, [e.clientX * dpr, canvas.height - e.clientY * dpr]);
+      moveX += e.movementX || 0;
+      moveY += e.movementY || 0;
+    });
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev =>
+      canvas.addEventListener(ev, (e) => pointers.delete(e.pointerId))
+    );
+
+    let raf;
+    function render(now) {
+      gl.clearColor(0.039, 0.043, 0.059, 1);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.useProgram(program);
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+
+      const flat = pointers.size ? Array.from(pointers.values()).flat() : [0, 0];
+      const padded = new Float32Array(20);
+      padded.set(flat.slice(0, 20));
+
+      gl.uniform2f(u.resolution, canvas.width, canvas.height);
+      gl.uniform1f(u.time, (now || 0) * 1e-3);
+      gl.uniform2f(u.move, moveX, moveY);
+      gl.uniform2f(u.touch, touchX * dpr, canvas.height - touchY * dpr);
+      gl.uniform1i(u.pointerCount, pointers.size);
+      gl.uniform2fv(u.pointers, padded);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+      raf = requestAnimationFrame(render);
+    }
+    render(0);
+
+    return { destroy(){ cancelAnimationFrame(raf); window.removeEventListener('resize', resize); } };
+  }
+
+  // Wait for DOM so the canvas has real layout size before we measure it
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initShaderHero('#shaderCanvas'));
+  } else {
+    initShaderHero('#shaderCanvas');
+  }
+})();
+</script>
+
+</body>
+</html>
